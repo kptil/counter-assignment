@@ -1,22 +1,35 @@
-// import necessary react testing library helpers here
-// import the Counter component here
+import {render, screen} from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import '@testing-library/jest-dom'
+import Counter from '../components/Counter'
 
-beforeEach(() => {
-  // Render the Counter component here
-})
+const setup = () => render(<Counter />);
+
+// beforeEach removed and setup called in each test to comply with below rule
+// https://github.com/testing-library/eslint-plugin-testing-library/blob/main/docs/rules/no-render-in-setup.md
 
 test('renders counter message', () => {
-  // Complete the unit test below based on the objective in the line above
+  setup();
+  const counterMessage = screen.getByText('Counter');
+  expect(counterMessage).toBeInTheDocument();
 });
 
 test('should render initial count with value of 0', () => {
-  // Complete the unit test below based on the objective in the line above
+  setup();
+  const countVal = screen.getByTestId('count');
+  expect(countVal).toHaveTextContent('0');
 });
 
 test('clicking + increments the count', () => {
-  // Complete the unit test below based on the objective in the line above
+  setup();
+  userEvent.click(screen.getByText('+'));
+  const countVal = screen.getByTestId('count');
+  expect(countVal).toHaveTextContent('1');
 });
 
 test('clicking - decrements the count', () => {
-  // Complete the unit test below based on the objective in the line above
+  setup();
+  userEvent.click(screen.getByText('-'));
+  const countVal = screen.getByTestId('count');
+  expect(countVal).toHaveTextContent('-1');
 });
